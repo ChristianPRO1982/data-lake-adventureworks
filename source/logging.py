@@ -1,11 +1,13 @@
 import datetime
 import logging
+import os
 
 
 
 def init_log()->bool:
     try:
         date_str = datetime.datetime.now().strftime("%Y-%m-%d")
+        os.makedirs('logs/', exist_ok=True)
         log_filename = f"logs/{date_str}.log"
         logging.basicConfig(filename=log_filename, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
         return True
