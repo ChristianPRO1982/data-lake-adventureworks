@@ -1,5 +1,6 @@
 from unittest.mock import patch, MagicMock
 import source.extract_SQLserver as extract_SQLserver
+import pandas as pd
 
 
 
@@ -32,12 +33,12 @@ def test_disconnect():
     extract_SQLserver.disconnect(mock_engine)
     mock_engine.dispose.assert_called_once()
 
-# def test_get_table_columns():
-#     engine = extract_SQLserver.connect()
-#     schema = 'dbo'
-#     table = 'test_table'
-#     result = extract_SQLserver.get_table_columns(schema, table, engine)
-#     assert isinstance(result, pd.DataFrame)
+def test_get_table_columns():
+    engine = extract_SQLserver.connect()
+    schema = 'dbo'
+    table = 'test_table'
+    result = extract_SQLserver.get_table_columns(schema, table, engine)
+    assert isinstance(result, pd.DataFrame)
 
 # def test_extract_tables():
 #     engine = extract_SQLserver.connect()
