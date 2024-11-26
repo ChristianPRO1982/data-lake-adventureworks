@@ -65,7 +65,7 @@ def connect()->create_engine:
         return engine
     
     except Exception as e:
-        logging_msg(f"{log_prefix} Error: {e}", 'ERROR')
+        logging_msg(f"{log_prefix} Error: {e}", 'CRITICAL')
         return None
     
 
@@ -116,6 +116,7 @@ def extract_tables(engine:create_engine)->bool:
         logging_msg(f"{log_prefix} Find all tables in the database", 'DEBUG')
         
         SCHEMAS = os.getenv("SCHEMAS")
+        DEBUG = os.getenv("DEBUG")
 
         request = f"""
 SELECT *
@@ -128,6 +129,7 @@ SELECT *
         output_dir = './output/SQL-server/'
         os.makedirs(output_dir, exist_ok=True)
         
+        count = 0
         for index, row in df_tables.iterrows():
             table_schema = row['TABLE_SCHEMA']
             table_name = row['TABLE_NAME']
@@ -157,16 +159,20 @@ SELECT *
                     table_df = pd.read_sql_query(table_query, engine)
                     output_file = os.path.join(output_dir, f"{table_schema}.{table_name}.csv")
                     table_df.to_csv(output_file, index=False)
+                    count += 1
                     logging_msg(f"{log_prefix} Table {table_schema}.{table_name} saved in {output_file}", 'DEBUG')
 
                 except Exception as e:
                     logging_msg(f"{log_prefix} Error: {e}", 'WARNING')
                     continue
+            
+            if DEBUG == '1' and index >= 1:
+                break
         
-        logging_msg(f"{log_prefix} OK : {len(df_tables)} tables extracted")
+        logging_msg(f"{log_prefix} {count} tables saved of {len(df_tables)} tables")
 
     except Exception as e:
-        logging_msg(f"{log_prefix} Error: {e}", 'ERROR')
+        logging_msg(f"{log_prefix} Error: {e}", 'CRITICAL')
         return False
 
 
@@ -186,5 +192,5 @@ def main()->bool:
         return True
     
     except Exception as e:
-        logging_msg(f"{log_prefix} Error: {e}", 'ERROR')
+        logging_msg(f"{log_prefix} Error: {e}", 'CRITICAL')
         return False

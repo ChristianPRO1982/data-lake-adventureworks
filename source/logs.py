@@ -6,33 +6,43 @@ import os
 
 def init_log()->bool:
     try:
+        DEBUG = os.getenv("DEBUG")
+
         date_str = datetime.datetime.now().strftime("%Y-%m-%d")
         os.makedirs('../logs/', exist_ok=True)
         log_filename = f"./logs/{date_str}.log"
-        logging.basicConfig(filename=log_filename, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+        if DEBUG == 1:
+            logging.basicConfig(filename=log_filename, level=logging.DEBUG, format='test9%(asctime)s - %(levelname)s - %(message)s')
+        else:
+            logging.basicConfig(filename=log_filename, level=logging.INFO, format='test9%(asctime)s - %(levelname)s - %(message)s')
+        
         return True
     
     except Exception as e:
-        print(f"Error in logging.py init_lot(): {e}")
+        print(f"Error in logging.py init_log(): {e}")
         return False
 
 
-def logging_msg(msg, type='info')->bool:
+def logging_msg(msg, type='INFO')->bool:
     try:
         logger = logging.getLogger(__name__)
+        # print(logging.getLevelName(logger.getEffectiveLevel()))
 
-        if type == 'info':
+        type = type.upper()
+
+        if type == 'INFO':
             logger.info(msg)
-        elif type == 'debug':
+        elif type == 'DEBUG':
             logger.debug(msg)
-        elif type == 'error':
+        elif type == 'ERROR':
             logger.error(msg)
-        elif type == 'warning':
+        elif type == 'WARNING':
             logger.warning(msg)
-        elif type == 'critical':
+        elif type == 'CRITICAL':
             logger.critical(msg)
 
-        print(f"[{type}] : {msg}")
+        print(f"[{type}] {msg} : ")
 
         return True
 
