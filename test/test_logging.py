@@ -1,18 +1,18 @@
-import source.logging as logging
+import source.logs as logs
 
 
 
 def test_init_log():
-    result = logging.init_log()
+    result = logs.init_log()
     assert result == True
 
 
 def test_init():
-    result = logging.logging_msg("Test message", "info")
+    result = logs.logging_msg("Test message", "info")
     assert result == True
-    result = logging.logging_msg("Test message", "debug")
+    result = logs.logging_msg("Test message", "debug")
     assert result == True
-    result = logging.logging_msg("Test message", "error")
+    result = logs.logging_msg("Test message", "error")
     assert result == True
-    result = logging.logging_msg("Test message", "warning")
+    result = logs.logging_msg("Test message", "warning")
     assert result == True
