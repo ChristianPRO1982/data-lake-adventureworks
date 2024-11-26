@@ -4,3 +4,8 @@ Projet d'école : Extraction de données multi-sources pour alimenter un datalak
 * Fichiers CSV compressés sur un data lake [Fichier de données]
 * Autres Fichiers [Fichier de données]
 * Fichiers Apache Parquet sur un data lake [Système big data]
+
+## organisation
+ajout du CI/CD
+
+mise en place de logs
