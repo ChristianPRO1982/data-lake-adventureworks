@@ -11,3 +11,6 @@ source /home/utilisateur/Documents/projects/DEV_IA/data-lake-adventureworks/venv
 
 # Run the Python script for extract files from Azure datalake (connection, extraction, diconnection)
 ./scripts/extract_all_files.sh
+
+# Run extract png from parket files
+./scripts/extract_png_from_parket.sh
