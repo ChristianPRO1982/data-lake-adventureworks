@@ -1,4 +1,4 @@
-from azure.storage.blob import BlobServiceClient, generate_container_sas, ContainerSasPermissions, BlobClient, ContainerClient
+from azure.storage.blob import BlobServiceClient, generate_container_sas, ContainerSasPermissions, ContainerClient
 from azure.core.exceptions import HttpResponseError
 from datetime import datetime, timedelta
 import dotenv
@@ -43,7 +43,7 @@ def generate_sas_token()->bool:
             permission=ContainerSasPermissions(read=True, list=True),
             expiry=datetime.utcnow() + timedelta(hours=1)  # Expiration dans 1 heure
         )
-
+        
         secrets_dir = os.path.join(os.path.dirname(__file__), '../secrets')
         os.makedirs(secrets_dir, exist_ok=True)
         with open(os.path.join(secrets_dir, 'token.txt'), 'w') as token_file:

@@ -10,3 +10,5 @@ geoalchemy2
 psycopg2
 pytest
 azure-storage-blob
+matplotlib
+tqdm
