@@ -9,3 +9,5 @@ Projet d'école : Extraction de données multi-sources pour alimenter un datalak
 ajout du CI/CD
 
 mise en place de logs
+
+ajout de la crontab à 2H00 du matin

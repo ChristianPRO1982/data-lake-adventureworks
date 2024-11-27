@@ -1,10 +1,10 @@
+from urllib.parse import quote_plus
+from geoalchemy2 import Geometry
+from sqlalchemy import create_engine, Column, Integer, String, text
+from sqlalchemy.orm import sessionmaker
 import pandas as pd
 import dotenv
 import os
-from urllib.parse import quote_plus
-from sqlalchemy import create_engine, Column, Integer, String, text
-from geoalchemy2 import Geometry
-from sqlalchemy.orm import sessionmaker
 from source.logs import init_log, logging_msg
 
 
@@ -175,6 +175,10 @@ SELECT *
         logging_msg(f"{log_prefix} Error: {e}", 'CRITICAL')
         return False
 
+
+####################################################################################################
+####################################################################################################
+####################################################################################################
 
 ############
 ### MAIN ###

@@ -13,9 +13,9 @@ def init_log()->bool:
         log_filename = f"./logs/{date_str}.log"
 
         if DEBUG == 1:
-            logging.basicConfig(filename=log_filename, level=logging.DEBUG, format='test9%(asctime)s - %(levelname)s - %(message)s')
+            logging.basicConfig(filename=log_filename, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
         else:
-            logging.basicConfig(filename=log_filename, level=logging.INFO, format='test9%(asctime)s - %(levelname)s - %(message)s')
+            logging.basicConfig(filename=log_filename, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
         
         return True
     
@@ -42,7 +42,8 @@ def logging_msg(msg, type='INFO')->bool:
         elif type == 'CRITICAL':
             logger.critical(msg)
 
-        print(f"[{type}] {msg} : ")
+        if type != 'DEBUG':
+            print(f"[{type}] {msg} : ")
 
         return True
 
