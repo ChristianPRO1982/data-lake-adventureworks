@@ -1,4 +1,5 @@
 from azure.storage.blob import BlobServiceClient, generate_container_sas, ContainerSasPermissions, BlobClient, ContainerClient
+from azure.core.exceptions import HttpResponseError
 from datetime import datetime, timedelta
 import dotenv
 import os
@@ -15,8 +16,8 @@ from source.logs import init_log, logging_msg
 def init()->bool:
     log_prefix = '[ext-all_files | init]'
     try:
-        init_log()
         dotenv.load_dotenv('.env', override=True)
+        init_log()
 
         logging_msg(f"{log_prefix} OK")
         return True
@@ -65,6 +66,12 @@ def get_sas_token_from_file()->str:
         
         if not os.path.exists(token_file_path):
             raise FileNotFoundError("Token file not found")
+        
+        file_creation_time = datetime.fromtimestamp(os.path.getctime(token_file_path))
+        if datetime.now() - file_creation_time > timedelta(minutes=55):
+            os.remove(token_file_path)
+            logging_msg(f"{log_prefix} Token file expired", 'WARNING')
+            return ""
 
         with open(token_file_path, 'r') as token_file:
             sas_token = token_file.read().strip()
@@ -75,6 +82,25 @@ def get_sas_token_from_file()->str:
         logging_msg(f"{log_prefix} {e}", 'INFO')
         return ""
 
+
+def test_sas_token_validity(sas_url):
+    log_prefix = '[ext-all_files | test_sas_token_validity]'
+    try:
+        logging_msg(f"{log_prefix} START")
+        
+        container_client = ContainerClient.from_container_url(sas_url)
+        blobs = list(container_client.list_blobs())
+
+        return True
+
+    except HttpResponseError as e:
+        # Si une erreur est renvoyée, vérifier le statut HTTP
+        if e.status_code == 403:
+            logging_msg(f"{log_prefix} SAS Token expired (403 Forbidden).", 'WARNING')
+        else:
+            logging_msg(f"{log_prefix} {e}", 'CRITICAL')
+        return False
+    
 
 ####################################################################################################
 ####################################################################################################
@@ -90,19 +116,21 @@ def extract_all_files(sas_url: str, folfer: str, target_folder: str)->bool:
         container_client = ContainerClient.from_container_url(sas_url)
 
         blobs = container_client.list_blobs(name_starts_with=folfer)
-        # Télécharger les blobs
+        count = 0
+        DEBUG = os.getenv("DEBUG")
         for blob in blobs:
-            blob_name = blob.name
-            print('>>>', blob_name)
-            # local_file_path = os.path.join(target_folder, os.path.basename(blob_name))
-            # print(f"Téléchargement de {blob_name} vers {local_file_path}...")
-            
-            # # Télécharger le fichier
-            # blob_client = container_client.get_blob_client(blob_name)
-            # with open(local_file_path, "wb") as file:
-            #     file.write(blob_client.download_blob().readall())
+            count += 1
+            if DEBUG == '1' and count > 1:
+                logging_msg(f"{log_prefix} DEBUG mode: only 1 file downloaded", 'DEBUG')
+                break
 
-        # print("Téléchargement terminé.")
+            blob_name = blob.name
+            logging_msg(f"{log_prefix} download from {blob_name} to {target_folder}", 'DEBUG')
+
+            local_file_path = os.path.join(target_folder, os.path.basename(blob_name))
+            blob_client = container_client.get_blob_client(blob_name)
+            with open(local_file_path, "wb") as file:
+                file.write(blob_client.download_blob().readall())
 
         return True
     
@@ -127,9 +155,17 @@ def main()->bool:
                 if generate_sas_token():
                     sas_url = get_sas_token_from_file()
                     if not sas_url:
-                        raise Exception("Failed to get SAS token from file")
+                        raise Exception("Failed to get SAS token from file 1")
                 else:
-                    raise Exception("Failed to generate SAS token")
+                    raise Exception("Failed to generate SAS token 1")
+
+            if not test_sas_token_validity(sas_url):
+                if generate_sas_token():
+                    sas_url = get_sas_token_from_file()
+                    if not sas_url:
+                        raise Exception("Failed to get SAS token from file 2")
+                else:
+                    raise Exception("Failed to generate SAS token 2")
 
             folders = os.getenv("FOLDERS")
             folder_pairs = folders.split(',')

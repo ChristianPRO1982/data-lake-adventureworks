@@ -12,10 +12,15 @@ def init_log()->bool:
         os.makedirs('../logs/', exist_ok=True)
         log_filename = f"./logs/{date_str}.log"
 
-        if DEBUG == 1:
+        if DEBUG == '1':
+            print("§§§§§§§§§§§§§§§§§§§§§§")
+            print("§§§§§ DEBUG MODE §§§§§")
+            print("§§§§§§§§§§§§§§§§§§§§§§")
             logging.basicConfig(filename=log_filename, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+            logging.getLogger("azure").setLevel(logging.INFO)
         else:
             logging.basicConfig(filename=log_filename, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+            logging.getLogger("azure").setLevel(logging.CRITICAL)
         
         return True
     
