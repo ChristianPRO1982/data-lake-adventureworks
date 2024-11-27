@@ -9,7 +9,7 @@ def init_log()->bool:
         DEBUG = os.getenv("DEBUG")
 
         date_str = datetime.datetime.now().strftime("%Y-%m-%d")
-        os.makedirs('../logs/', exist_ok=True)
+        os.makedirs('./logs/', exist_ok=True)
         log_filename = f"./logs/{date_str}.log"
 
         if DEBUG == '1':
