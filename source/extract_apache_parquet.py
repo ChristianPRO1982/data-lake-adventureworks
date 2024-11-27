@@ -39,7 +39,7 @@ def init()->bool:
 def save_image(image, file_path)->bool:
     log_prefix = '[ext-apache_parquet | save_image]'
     try:
-        logging_msg(f"{log_prefix} START")
+        logging_msg(f"{log_prefix} START", 'DEBUG')
 
         webp_file_path = f"{file_path}.webp"
         with open(webp_file_path, 'wb') as f:
