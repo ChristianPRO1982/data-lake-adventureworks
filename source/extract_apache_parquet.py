@@ -93,7 +93,7 @@ def extract_all_png(parkets_folder, image_folder):
                 if write_header:
                     writer.writeheader()
                 
-                for row_idx in tqdm(range(parkets[parket]), desc="Traitement des lignes"):
+                for row_idx in tqdm(range(parkets[parket]), desc="genPNG"):
                     metadata = df.iloc[row_idx].drop("image").to_dict()
                     writer.writerow(metadata)
 
@@ -106,7 +106,7 @@ def extract_all_png(parkets_folder, image_folder):
                         break
 
     except Exception as e:
-        logging_msg(f"{log_prefix} Error: {e}", 'CRITICAL')
+        logging_msg(f"{log_prefix} Error: {e}", 'ERROR')
 
 
 ####################################################################################################

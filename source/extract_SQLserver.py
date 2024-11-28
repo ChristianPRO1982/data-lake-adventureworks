@@ -172,7 +172,7 @@ SELECT *
         logging_msg(f"{log_prefix} {count} tables saved of {len(df_tables)} tables")
 
     except Exception as e:
-        logging_msg(f"{log_prefix} Error: {e}", 'CRITICAL')
+        logging_msg(f"{log_prefix} Error: {e}", 'ERROR')
         return False
 
 

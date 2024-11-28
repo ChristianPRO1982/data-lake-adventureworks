@@ -135,7 +135,7 @@ def extract_all_files(sas_url: str, folfer: str, target_folder: str)->bool:
         return True
     
     except Exception as e:
-        logging_msg(f"{log_prefix} {e}", 'CRITICAL')
+        logging_msg(f"{log_prefix} {e}", 'ERROR')
         return False
 
 
