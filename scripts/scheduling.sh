@@ -17,3 +17,9 @@ source /home/utilisateur/Documents/projects/DEV_IA/data-lake-adventureworks/venv
 
 # Run the Python script for csv files from the compressed file
 ./scripts/extract_CSV_compressed.sh
+
+# Run the Python script for other files
+./scripts/extract_other_files.sh
+
+# clean the downloaded files and replace files in ML folder
+./scripts/clean_up.sh
