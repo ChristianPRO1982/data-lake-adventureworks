@@ -109,7 +109,7 @@ def test_sas_token_validity(sas_url):
 def extract_all_files(sas_url: str, folfer: str, target_folder: str)->bool:
     log_prefix = '[ext-all_files | extract_all_files]'
     try:
-        logging_msg(f"{log_prefix} START")
+        logging_msg(f"{log_prefix} START: {folfer} -> {target_folder}")
 
         os.makedirs(target_folder, exist_ok=True)
 
@@ -172,6 +172,8 @@ def main()->bool:
             for pair in folder_pairs:
                 azure_folder, target_folder = pair.split(':')
                 extract_all_files(sas_url, azure_folder, target_folder)
+            
+            logging_msg(f"{log_prefix} ALL OK")
 
         logging_msg(f"{log_prefix} END")
         return True

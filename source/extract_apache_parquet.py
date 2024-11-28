@@ -124,6 +124,7 @@ def main()->bool:
             image_folder = os.getenv("IMAGE_FOLDER")
             print(parkets_folder, image_folder)
             extract_all_png(parkets_folder, image_folder)
+            logging_msg(f"{log_prefix} ALL OK")
 
         logging_msg(f"{log_prefix} END")
         return True

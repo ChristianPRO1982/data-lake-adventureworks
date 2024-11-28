@@ -13,4 +13,7 @@ source /home/utilisateur/Documents/projects/DEV_IA/data-lake-adventureworks/venv
 ./scripts/extract_all_files.sh
 
 # Run extract png from parket files
-./scripts/extract_png_from_parket.sh
+./scripts/extract_apache_parquet.sh
+
+# Run the Python script for csv files from the compressed file
+./scripts/extract_CSV_compressed.sh
