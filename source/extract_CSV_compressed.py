@@ -106,7 +106,7 @@ def main()->bool:
 
             scan_folder(ZIP_FOLDER, EXTRACTED_FOLDER, UNEXTRACTED_FOLDER, False)
 
-            logging_msg(f"{log_prefix} ALL OK")
+            logging_msg(f"{log_prefix} ALL OK", 'WARNING')
 
         logging_msg(f"{log_prefix} END")
         return True

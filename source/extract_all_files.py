@@ -120,8 +120,8 @@ def extract_all_files(sas_url: str, folfer: str, target_folder: str)->bool:
         DEBUG = os.getenv("DEBUG")
         for blob in blobs:
             count += 1
-            if DEBUG == '1' and count > 1:
-                logging_msg(f"{log_prefix} DEBUG mode: only 1 file downloaded", 'DEBUG')
+            if DEBUG == '1' and count > 2:
+                logging_msg(f"{log_prefix} DEBUG mode: only 2 file downloaded", 'DEBUG')
                 break
 
             blob_name = blob.name
@@ -173,7 +173,7 @@ def main()->bool:
                 azure_folder, target_folder = pair.split(':')
                 extract_all_files(sas_url, azure_folder, target_folder)
             
-            logging_msg(f"{log_prefix} ALL OK")
+            logging_msg(f"{log_prefix} ALL OK", 'WARNING')
 
         logging_msg(f"{log_prefix} END")
         return True

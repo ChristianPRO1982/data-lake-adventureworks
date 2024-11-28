@@ -166,10 +166,10 @@ SELECT *
                     logging_msg(f"{log_prefix} Error: {e}", 'WARNING')
                     continue
             
-            if DEBUG == '1' and index >= 1:
+            if DEBUG == '1' and index >= 2:
                 break
         
-        logging_msg(f"{log_prefix} {count} tables saved of {len(df_tables)} tables")
+        logging_msg(f"{log_prefix} {count} tables saved of {len(df_tables)} tables", 'WARNING')
 
     except Exception as e:
         logging_msg(f"{log_prefix} Error: {e}", 'ERROR')
@@ -191,7 +191,7 @@ def main()->bool:
             if engine:
                 extract_tables(engine)
             disconnect(engine)
-            logging_msg(f"{log_prefix} ALL OK")
+            logging_msg(f"{log_prefix} ALL OK", 'WARNING')
         logging_msg(f"{log_prefix} END")
         return True
     
