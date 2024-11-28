@@ -23,3 +23,6 @@ source /home/utilisateur/Documents/projects/DEV_IA/data-lake-adventureworks/venv
 
 # clean the downloaded files and replace files in ML folder
 ./scripts/clean_up.sh
+
+# send email with not INFO logs
+./scripts/email.sh
