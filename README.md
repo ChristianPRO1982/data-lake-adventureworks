@@ -5,36 +5,36 @@ Projet d'école : Extraction de données multi-sources pour alimenter un datalak
 * Autres Fichiers [Fichier de données]
 * Fichiers Apache Parquet sur un data lake [Système big data]
 
-## isntallation
+## installation
 à faire avant le *pip install -r requirements.txt*
 
-Pour installer les dépendances nécessaires, exécutez la commande suivante :
+Pour installer les dépendances nécessaires, exécutez la commande suivante dans bash et non dans zsh :
 
 ```bash
-$ sudo apt-get update
-$ sudo apt-get install libpq-dev python3-dev
-$ sudo apt-get install unixodbc unixodbc-dev
-$ sudo ACCEPT_EULA=Y apt install msodbcsql18
+sudo apt-get update
+sudo apt-get install libpq-dev python3-dev
+sudo apt-get install unixodbc unixodbc-dev
+sudo ACCEPT_EULA=Y apt install msodbcsql18
 ```
 
 Faire une installation manuelle de unixodbc si besoin
 ```bash
-$ tar -xzf unixODBC-2.3.12.tar.gz
-$ cd unixODBC-2.3.12
-$ ./configure
-$ make
-$ sudo make install
+tar -xzf unixODBC-2.3.12.tar.gz
+cd unixODBC-2.3.12
+./configure
+make
+sudo make install
 ```
 
 si besoin, mettre à jour les fichiers */etc/odbcinst.ini* et */etc/odbc.ini*
 ```bash
-$ ls /etc/odbcinst.ini /etc/odbc.ini
+ls /etc/odbcinst.ini /etc/odbc.ini
 ```
 créer les fichiers manquants
 
 MAJ de */etc/odbcinst.ini*
 ```bash
-$ sudo nano /etc/odbcinst.ini
+sudo nano /etc/odbcinst.ini
 ```
 ```ini
 [ODBC Driver 18 for SQL Server]
@@ -45,7 +45,7 @@ UsageCount=1
 
 MAJ de */etc/odbc.ini*
 ```bash
-$ sudo nano /etc/odbc.ini
+sudo nano /etc/odbc.ini
 ```
 ```ini
 [MyDSN]
@@ -57,8 +57,8 @@ Database=your_database_name
 
 pour tester
 ```bash
-$ which odbcinst
-$ odbcinst -q -d
+which odbcinst
+odbcinst -q -d
 ```
 *odbcinst -q -d* doit retourner le nom du driver utilisé
 
