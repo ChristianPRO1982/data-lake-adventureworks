@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 import shutil
 import dotenv
 from source.logs import init_log, logging_msg
@@ -100,6 +101,8 @@ def main()->bool:
     log_prefix = '[ext-CSV_compressed | main]'
     try:
         if init():
+            logging_msg(f"{log_prefix} START at {datetime.now()}", 'WARNING')
+
             ZIP_FOLDER = os.getenv('ZIP_FOLDER')
             EXTRACTED_FOLDER = os.getenv('EXTRACTED_FOLDER')
             UNEXTRACTED_FOLDER = os.getenv('UNEXTRACTED_FOLDER')

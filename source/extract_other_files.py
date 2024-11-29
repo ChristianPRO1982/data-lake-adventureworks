@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 import dotenv
 from source.logs import init_log, logging_msg
 
@@ -62,6 +63,8 @@ def main()->bool:
     log_prefix = '[ext-other_files | main]'
     try:
         if init():
+            logging_msg(f"{log_prefix} START at {datetime.now()}", 'WARNING')
+            
             OTHER_FILES_FOLDER = os.getenv('OTHER_FILES_FOLDER')
             EXTENSIONS = os.getenv('EXTENSIONS').split(',')
 

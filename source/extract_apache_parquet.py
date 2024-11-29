@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+from datetime import datetime
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import csv
@@ -120,6 +121,8 @@ def main()->bool:
     log_prefix = '[ext-apache_parquet | main]'
     try:
         if init():
+            logging_msg(f"{log_prefix} START at {datetime.now()}", 'WARNING')
+
             parkets_folder = os.getenv("PARKETS_FOLDER")
             image_folder = os.getenv("IMAGE_FOLDER")
             print(parkets_folder, image_folder)

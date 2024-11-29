@@ -11,8 +11,9 @@ Projet d'école : Extraction de données multi-sources pour alimenter un datalak
 Pour installer les dépendances nécessaires, exécutez la commande suivante :
 
 ```bash
-$ sudo apt update
-$ sudo apt install libpq-dev python3-dev
+$ sudo apt-get update
+$ sudo apt-get install libpq-dev python3-dev
+$ sudo apt-get install unixodbc unixodbc-dev
 ```
 
 ## organisation

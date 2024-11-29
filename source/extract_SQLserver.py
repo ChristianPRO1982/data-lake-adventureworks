@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 import pandas as pd
 import dotenv
 import os
+from datetime import datetime
 from source.logs import init_log, logging_msg
 
 
@@ -42,14 +43,13 @@ def connect()->create_engine:
         SERVER = os.getenv("SERVER")
         if SERVER.startswith("tcp:"):  # Nettoyage de l'adresse serveur
             SERVER = SERVER.replace("tcp:", "")
-        print(SERVER)
         DATABASE = os.getenv("DATABASE")
         UID = os.getenv("UID")
         PWD = os.getenv("PWD")
         ENCRYPT = os.getenv("ENCRYPT")
         TRUSTSERVERCERTIFICATE = os.getenv("TRUSTSERVERCERTIFICATE")
         CONNECTION_TIMEOUT = os.getenv("CONNECTION_TIMEOUT")
-
+        
         if not all([DRIVER, SERVER, DATABASE, UID, PWD]):
             raise ValueError("Missing required environment variables")
         
@@ -187,11 +187,13 @@ def main()->bool:
     log_prefix = '[ext-SQLserver | main]'
     try:
         if init():
+            logging_msg(f"{log_prefix} START at {datetime.now()}", 'WARNING')
+
             engine = connect()
             if engine:
                 extract_tables(engine)
-            disconnect(engine)
-            logging_msg(f"{log_prefix} ALL OK", 'WARNING')
+                disconnect(engine)
+                logging_msg(f"{log_prefix} ALL OK", 'WARNING')
         logging_msg(f"{log_prefix} END")
         return True
     

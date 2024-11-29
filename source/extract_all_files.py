@@ -150,6 +150,8 @@ def main()->bool:
     log_prefix = '[ext-all_files | main]'
     try:
         if init():
+            logging_msg(f"{log_prefix} START at {datetime.now()}", 'WARNING')
+
             sas_url = get_sas_token_from_file()
             if not sas_url:
                 if generate_sas_token():
