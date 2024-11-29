@@ -5,6 +5,16 @@ Projet d'école : Extraction de données multi-sources pour alimenter un datalak
 * Autres Fichiers [Fichier de données]
 * Fichiers Apache Parquet sur un data lake [Système big data]
 
+## isntallation
+à faire avant le *pip install -r requirements.txt*
+
+Pour installer les dépendances nécessaires, exécutez la commande suivante :
+
+```bash
+$ sudo apt update
+$ sudo apt install libpq-dev python3-dev
+```
+
 ## organisation
 ajout du CI/CD
 
