@@ -68,3 +68,64 @@ ajout du CI/CD
 mise en place de logs
 
 ajout de la crontab à 2H00 du matin
+
+```mermaid
+flowchart LR
+    crontab((crontab : ⏰2AM))
+    crontab --> scheduling.sh
+
+    subgraph shell
+        scheduling.sh
+        scheduling.sh --> extract_SQLserver.sh
+        scheduling.sh --> extract_all_files.sh
+        scheduling.sh --> extract_apache_parquet.sh
+        scheduling.sh --> extract_CSV_compressed.sh
+        scheduling.sh --> extract_other_files.sh
+        scheduling.sh --> clean_up.sh
+        scheduling.sh --> email.sh
+    end
+
+    subgraph python
+        extract_SQLserver.sh --> extract_SQLserver.py:::python
+        extract_all_files.sh --> extract_all_files.py:::python
+        extract_apache_parquet.sh --> extract_apache_parquet.py:::python
+        extract_CSV_compressed.sh --> extract_CSV_compressed.py:::python
+        extract_other_files.sh --> extract_other_files.py:::python
+        clean_up.sh --> clean_up.py:::python
+        email.sh --> email.py:::python
+    end
+
+    subgraph datalake["Azure Cloud datalake"]
+        extract_SQLserver.py --> DB[(SQL Server)]:::mysql
+        extract_all_files.py --> files@{ shape: docs, label: "files" }
+        files:::tfile
+        extract_apache_parquet.py --> parquets@{ shape: docs, label: "parket files" }
+        parquets:::tfile
+        extract_CSV_compressed.py --> csv@{ shape: docs, label: "csv compressed" }
+        csv:::tfile
+        extract_other_files.py --> otherfiles@{ shape: docs, label: "other files" }
+        otherfiles:::tfile
+    end
+
+    subgraph output
+        DB o--o csvDB@{ shape: docs, label: "csv files" }
+        csvDB:::tfile
+        files o--o filesOUT@{ shape: docs, label: "files" }
+        filesOUT:::tfile
+        parquets o--o parquetsOUT@{ shape: docs, label: "parket files" }
+        parquetsOUT:::tfile
+        csv o--o csvOUT@{ shape: docs, label: "csv compressed" }
+        csvOUT:::tfile
+        otherfiles o--o otherfilesOUT@{ shape: docs, label: "other files" }
+        otherfilesOUT:::tfile
+    end
+
+
+    classDef python fill:#FFDC52, color:#000;
+    classDef fastapi fill:#059286, color:#45D2C6
+    classDef openai fill:#FFF, color:#000;
+    classDef mysql fill:#00618B, color:#40A1CB
+    classDef sqlite fill:#4FC0FC, color:#0F80CC
+    classDef file fill:#BBB, color:#333
+    classDef tfile fill:#888, color:#333
+```
